@@ -47,12 +47,35 @@ public:
     {
         return Suit;
     }
+};
 
+bool Compare(Card card1, Card card2)
+{
+    return card1.GetValue() < card2.GetValue();
+};
+class Player
+{
+public:
+    int score;
+    int pointsTaken;
+    std::vector<Card> Hand;
+    std::vector<Card> Hearts;
+    std::vector<Card> Spades;
+    std::vector<Card> Clubs;
+    std::vector<Card> Diamonds;
+    std::string Name;
+    Player() :Hand(), Hearts(), Spades(),Clubs(),Diamonds()
+    {
+        score = 0;
+        std::cout << "What is your name?";
+        std::cin >> Name;
+        pointsTaken = 0;
+    }
 };
 class Deck {
 public:
     Card Cards[52];
-    Deck()
+    Deck() :Cards{}
     {
         //creates an array of all 52 cards in a standard deck
         for (int i = 0; i < 4; i++)
@@ -93,7 +116,7 @@ public:
             //create a placeholder to swap the cards
             Card card = Cards[i];
             //create a random index
-            std::uniform_int_distribution<> rand(0, 52);
+            std::uniform_int_distribution<> rand(0, 51);
             std::mt19937 gen(rd());
             int holder = rand(gen);
             //perform the swap
@@ -101,44 +124,98 @@ public:
             Cards[holder] = card;
         }   
     }
-    void Deal(std::list<Card> hand1, std::list<Card> hand2, std::list<Card> hand3, std::list<Card> hand4)
+    void Deal(Player player1, Player player2, Player player3, Player player4)
     {
         //assignes 13 cards to each hand then sorts the hands
+        //It also assignes each card to its suite, so we can keep track of the players cards in each suite and sort their hand more easily
         for (int i = 0; i < 52; i++)
         {
             this->Shuffle();
             if (i % 4 == 0)
             {
-                hand1.push_back(Cards[i]);
+                if (Cards[i].GetSuit() == 'S')
+                {
+                    player1.Spades.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'H')
+                {
+                    player1.Hearts.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'D')
+                {
+                    player1.Diamonds.push_back(Cards[i]);
+                }
+                else
+                {
+                    player1.Clubs.push_back(Cards[i]);
+                }
             }
             else if (i % 4 == 1)
             {
-                hand2.push_back(Cards[i]);
+
+                if (Cards[i].GetSuit() == 'S')
+                {
+                    player2.Spades.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'H')
+                {
+                    player2.Hearts.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'D')
+                {
+                    player2.Diamonds.push_back(Cards[i]);
+                }
+                else
+                {
+                    player2.Clubs.push_back(Cards[i]);
+                }
             }
             else if (i % 4 == 2)
             {
-                hand3.push_back(Cards[i]);
+                if (Cards[i].GetSuit() == 'S')
+                {
+                    player3.Spades.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'H')
+                {
+                    player3.Hearts.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'D')
+                {
+                    player3.Diamonds.push_back(Cards[i]);
+                }
+                else
+                {
+                    player3.Clubs.push_back(Cards[i]);
+                }
             }
             else
             {
-                hand4.push_back(Cards[i]);
+                if (Cards[i].GetSuit() == 'S')
+                {
+                    player4.Spades.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'H')
+                {
+                    player4.Hearts.push_back(Cards[i]);
+                }
+                else if (Cards[i].GetSuit() == 'D')
+                {
+                    player4.Diamonds.push_back(Cards[i]);
+                }
+                else
+                {
+                    player4.Clubs.push_back(Cards[i]);
+                }
             }
+
+
         }
+
     }
 };
 //A class to score the stats of all the Player
-class Player
-{
-public:
-    int score;
-    int pointsTaken;
-    std::list<Card> Hand;
-    Player()
-    {
-        score = 0;
-        pointsTaken;
-    }
-};
+
 class Game
 {
 public:
@@ -147,18 +224,24 @@ public:
     Player Player3;
     Player Player4;
     Deck GameDeck;
-    Game()
+    Game():Player1(), Player2(),Player3(),Player4(), GameDeck()
     {
     }
     void Round()
     {
-        GameDeck.Deal(Player1.Hand, Player2.Hand, Player3.Hand, Player4.Hand);
+        GameDeck.Deal(Player1, Player2, Player3, Player4);
         
     }
 };
 int main()
 {
     std::cout << "Hello World!\n";
+    Game game;
+    game.Round();
+    for (int i = 0; i < game.Player1.Spades.size(); i++)
+    {
+        std::cout << game.Player1.Spades[i].ToString() <<" ";
+    }
 }
 
 
