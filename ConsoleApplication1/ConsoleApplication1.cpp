@@ -37,7 +37,7 @@ public:
         {
             return Suit + "J";
         }
-        return Suit + "" + Value;
+        return Suit + std::to_string(Value);
     }
     int GetValue()
     {
@@ -126,11 +126,12 @@ public:
     }
     void Deal(Player player1, Player player2, Player player3, Player player4)
     {
+        this->Shuffle();
         //assignes 13 cards to each hand then sorts the hands
         //It also assignes each card to its suite, so we can keep track of the players cards in each suite and sort their hand more easily
         for (int i = 0; i < 52; i++)
         {
-            this->Shuffle();
+
             if (i % 4 == 0)
             {
                 if (Cards[i].GetSuit() == 'S')
@@ -230,7 +231,6 @@ public:
     void Round()
     {
         GameDeck.Deal(Player1, Player2, Player3, Player4);
-        
     }
 };
 int main()
@@ -242,6 +242,8 @@ int main()
     {
         std::cout << game.Player1.Spades[i].ToString() <<" ";
     }
+    std::cin.get();
+    return 0;
 }
 
 
